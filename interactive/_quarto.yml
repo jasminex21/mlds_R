@@ -1,0 +1,14 @@
+project:
+  title: "interactive"
+  output-dir: /home/jasmine/MLDS/mlds_R/interactive/output
+
+format:
+  html:
+    theme: [cosmo, theme.scss]
+    toc: true
+
+editor:
+  render-on-save: true
+
+
+

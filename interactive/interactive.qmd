@@ -1,0 +1,322 @@
+---
+title: "Workshop: Intro to R and Data Viz. in R"
+format: 
+    live-html:
+        theme: [cosmo, theme.scss]
+        toc: true
+webr:
+    packages: 
+        - ggplot2
+author: Jasmine Xu
+date: Oct. 1, 2024
+---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ./_extensions/r-wasm/live/_gradethis.qmd >}}
+
+## Overview
+
+<p align="center">
+  <img src="mlds_logo.png" width="200"/>
+</p>
+
+Welcome! Today, we will explore the basics of R programming and dive into data visualization using ggplot2, one of the most popular packages for creating graphics in R.
+
+R is widely used for data analysis and visualization in various fields, including academia, industry, and research. Its applications range from simple data manipulation to complex statistical modeling and machine learning.
+
+## Basics
+
+### Assignment
+
+The assignment operator in R is `<-`. You can also use the equals sign `=`. 
+
+``` {webr}
+#| autorun: false
+var1 <- "My first variable!"
+# print the variable
+var1
+```
+
+``` {webr}
+#| autorun: false
+var2 = "My second variable!"
+var2
+```
+
+### Data Types
+
+* Character: Used for text data, enclosed within either single or double quotation marks, e.g. "Hello", "40 Acres'
+
+* Numeric: integers and floats. e.g. `12`, `3.14`, `-7`.
+* Logical: Consists of boolean values `TRUE` and `FALSE`.
+* Vectors: A sequence of elements of the same data type.
+    * Use `c()` to concatenate items into a vector.
+        * Numeric vector: `c(1, 2, 3, 4, 5)`
+        * Character vector: `c("apple", "banana", "orange")`
+        * Logical vector: `c(TRUE, FALSE, TRUE)`
+
+``` {webr}
+#| autorun: false
+vec1 = c(1, 3, 5, 8, 12)
+print(vec1)
+
+# you can also assign a series of numbers to a vector
+vec2 = 1:10
+print(vec2)
+```  
+
+``` {webr}
+#| autorun: false
+# access elements in vectors with square brackets
+# note: indexing in R starts at 1, not 0!
+print(vec1[3])
+```
+
+### Math
+
+| Operator      | Name           | Example  |
+| :-------------: |:-------------| -----|
+| +      | Addition | x + y |
+| -     | Subtraction      |   x - y |
+| * | Multiplication      |    x * y |
+| / | Division      |    x / y |
+| ^ | Exponent      |    x ^ y |
+| %% | Modulus (remainder from division)     |    x %% y |
+| % / % | Integer division      |    x% / %y |
+
+Some example calculations: 
+
+``` {webr}
+#| autorun: false
+print(5 * 7 + 9)
+# note that multiplication is done before addition
+print(7 + 9 * 5)
+# use parentheses as needed
+print(5 * (7 + 9))
+```
+
+Other useful functions for computations include `log()` for logarithms and `sqrt()` for square roots.
+
+Base R also comes with several useful functions for statistical analyses, including `mean()`, `median()`, and `sd()`.
+
+``` {webr}
+#| autorun: false
+vec1 = c(1, 3, 5, 8, 12)
+
+# mean
+print(mean(vec1))
+# median
+print(median(vec1))
+# standard deviation
+print(sd(vec1))
+```
+
+In some cases, you may need to deal with `NA` values, which indicate missing data. 
+
+What happens when you run the following? What happens when you uncomment and re-run lines 5, 8, and 11?
+
+``` {webr}
+#| autorun: false
+vec_na = c(1, 3, 5, NA, 12)
+
+# mean
+print(mean(vec_na))
+# print(mean(vec_na, na.rm=TRUE))
+# median
+print(median(vec_na))
+# print(median(vec_na, na.rm=TRUE))
+# standard deviation
+print(sd(vec_na))
+# print(sd(vec_na, na.rm=TRUE))
+```
+
+## Data Visualization
+
+Let's start playing with real data! We will be using the `iris` dataset, which is built into R. 
+
+The dataset contains 150 observations of iris flowers, each belonging to one of three species: *setosa*, *versicolor*, or *virginica*. 
+
+::: {.callout-tip appearance="simple"}
+## Tip
+Because the `iris` dataset is already in R, we don't need to load it in. If, however, you have a dataset stored locally in a CSV file, you can use `data = read.csv("path_to_dataset.csv")` to read in your data.  
+:::
+
+Once a dataset is loaded into your R session, it is stored in a **dataframe**.
+
+We can take a brief look at the first few rows of the dataset using `head()`: 
+
+``` {webr}
+#| autorun: false
+head(iris)
+```
+
+``` {webr}
+#| autorun: false
+# `paste0` combines outputs
+print(paste0("Number of rows: ", nrow(iris)))
+print(paste0("Number of columns: ", ncol(iris)))
+# column names
+print(names(iris))
+```
+
+And you can also get some summary statistics about the dataset using the `summary()` function. Notice the difference in summary statistics between the numeric and categorical variables!
+
+``` {webr}
+#| autorun: false
+summary(iris)
+```
+
+Specific columns in a dataframe are accessed using the `$` symbol in R. 
+
+``` {webr}
+#| autorun: false
+# printing the first 15 values in the Sepal.Length column
+print(iris$Sepal.Length[1:15])
+```
+
+### Base R
+
+One of R's greatest advantages is its support for data visualization. 
+
+We'll start with plotting in base R - the default plotting options built into R - and then we'll move on to plotting with `ggplot`, the R package that allows users to create and customize prettier graphics.
+
+Plotting functions provided by base R include `barplot()` for barcharts, `hist()` for histograms, `plot()` for scatterplots, `boxplot()` for boxplots, and so on.
+
+``` {webr}
+#| autorun: false
+# histogram example
+hist(x = iris$Sepal.Width, # data to plot on the x axis
+     main = "Histogram of Iris Sepal Widths", # plot title
+     xlab = "Sepal Width (cm)") # x axis title
+```
+
+``` {webr}
+#| autorun: false
+# scatterplot example
+plot(x = iris$Sepal.Width, # data to plot on the x axis
+     y = iris$Sepal.Length, # data to plot on the y axis
+     main = "Histogram of Iris Sepal Widths", # plot title
+     xlab = "Sepal Width (cm)", # x axis title
+     ylab = "Sepal Length (cm)") # y axis title
+```
+
+While plotting in base R is fast and convenient, it is not the most visually appealing.
+
+### ggplot
+
+`ggplot` is a data visualization package in R that provides a flexible and intuitive framework for creating graphics.
+
+Because `ggplot` is not included in base R and is a separate package, it needs to be installed. In R, external packages are installed using `install.packages("package_name")`, and then loaded into the session using `library("package_name")`
+
+``` {webr}
+#| autorun: false
+install.packages("ggplot2", quiet = TRUE)
+library(ggplot2)
+print("ggplot installed!")
+```
+
+Plotting in `ggplot` follows a consistent template: you first supply the ggplot() function, in which you specify the dataset you will be using, as well as an aesthetic mapping using aes(). Then, you simply add layers onto the ggplot (using `+`). 
+
+Supported plots include histogams, boxplots, scatterplots, violin plots, density plots, and [tons more](https://ggplot2.tidyverse.org/reference/).
+
+``` {webr}
+#| autorun: false
+ggplot(iris, aes(x = Sepal.Width)) + # specifying dataset and aesthetic mapping
+  geom_histogram(bins = 12) + # adding a histogram layer
+  labs(title = "Histogram of Iris Sepal Widths", # adding a layer with title and axis labels
+       x = "Sepal Width (cm)")
+```
+
+``` {webr}
+#| autorun: false
+ggplot(iris, aes(x = Sepal.Width, 
+                 y = Sepal.Length)) +
+  geom_point() + # adding a scatterplot layer
+  labs(title = "Scatterplot of Sepal Length vs Width", 
+       x = "Sepal Width (cm)",
+       y = "Sepal Length (cm)")
+```
+
+Try it yourself - create a `ggplot` scatterplot with `Petal.Width` on the x axis, and `Petal.Length` on the y axis. *Double click on each blank and fill them in.*
+
+```{webr}
+#| exercise: ex_1
+ggplot(______, aes(x = ______, y = ______)) +
+  ______() + 
+  labs(title = "Histogram of Petal Lengths vs Widths", 
+       x = "Petal Width (cm)",
+       y = "Petal Length (cm)")
+
+```
+
+::: {.solution exercise="ex_1"}
+
+#### Solution
+
+``` {webr}
+#| exercise: ex_1
+#| solution: true
+ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
+  geom_point() + 
+  labs(title = "Histogram of Petal Lengths vs Widths", 
+       x = "Petal Width (cm)",
+       y = "Petal Length (cm)")
+```
+
+:::
+
+```{webr}
+#| exercise: ex_1
+#| check: true
+gradethis::grade_this_code()
+```
+
+Let's further customize our ggplots. 
+
+#### Grouping
+
+We can group our histogram by species - the legend is automatically added! 
+
+``` {webr}
+#| autorun: false
+ggplot(iris, 
+       aes(x = Sepal.Width, fill = Species)) + 
+  geom_histogram(bins = 12,
+                 # alpha controls transparency
+                 alpha = 0.8) + 
+  labs(title = "Histogram of Sepal Widths", 
+       x = "Sepal Width (cm)", 
+       y = "Frequency") # + 
+  # you can specify your own colors for each group
+  # scale_fill_manual(values = c("darkgreen", 
+                               # "forestgreen", 
+                               # "darkolivegreen"))
+```
+
+The same grouping can be done for scatterplots.
+
+``` {webr}
+#| autorun: false
+ggplot(iris, 
+       aes(x = Sepal.Width, y = Sepal.Length, color = Species)) + 
+  geom_point() + 
+  labs(title = "Sepal Lengths vs Sepal Widths", 
+       x = "Sepal Width", 
+       y = "Sepal Length") # +
+  # scale_color_manual(values = c("darkgreen", 
+                               # "forestgreen", 
+                               # "darkolivegreen"))
+```
+
+Instead of overlaying groups on top of each other, we can also use **facet_wrapping**.
+
+``` {webr}
+#| autorun: false
+ggplot(iris, 
+       aes(x = Sepal.Width, y = Sepal.Length, color = Species)) + 
+  geom_point() + 
+  labs(title = "Sepal Lengths vs Sepal Widths", 
+       x = "Sepal Width", 
+       y = "Sepal Length") +
+  facet_wrap(~Species)
+```
