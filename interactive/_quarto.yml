@@ -9,8 +9,17 @@ website:
     left: "Built with [Quarto](https://quarto.org/) and [Quarto Live](https://r-wasm.github.io/quarto-live/)"
     background: "#B0C4DE"
 
-  repo-url: https://github.com/jasminex21/mlds_R
-  repo-actions: [edit, issue]
+  navbar:
+    background: "#B0C4DE"
+    search: true
+    left:
+      - text: "Interactive demo"
+        href: index.qmd
+      - text: "Static demo"
+        href: static.qmd
+    right: 
+      - icon: github
+        href: https://github.com/jasminex21/mlds_R
 
 format:
   html:
