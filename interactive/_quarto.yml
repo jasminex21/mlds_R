@@ -1,6 +1,6 @@
 project:
   title: "interactive"
-  output-dir: /home/jasmine/MLDS/mlds_R/interactive/docs
+  output-dir: /home/jasmine/MLDS/mlds_R/docs
 
 format:
   html:
