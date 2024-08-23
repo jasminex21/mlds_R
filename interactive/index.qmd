@@ -7,6 +7,7 @@ format:
 webr:
     packages: 
         - ggplot2
+        - palmerpenguins
 author: Jasmine Xu
 date: Oct. 1, 2024
 ---
@@ -206,13 +207,17 @@ While plotting in base R is fast and convenient, it is not the most visually app
 
 `ggplot` is a data visualization package in R that provides a flexible and intuitive framework for creating graphics.
 
-Because `ggplot` is not included in base R and is a separate package, it needs to be installed. In R, external packages are installed using `install.packages("package_name")`, and then loaded into the session using `library("package_name")`
+::: {.callout-tip appearance="simple"}
+## Tip
+Because `ggplot` is not included in base R and is a separate package, it needs to be installed. In R, external packages are installed using `install.packages("package_name")`.
+:::
+
+For simplicity, all required packages for this demo have been pre-installed, so you simply need to load them into the session using `library("package_name")`.
 
 ``` {webr}
 #| autorun: false
-install.packages("ggplot2", quiet = TRUE)
 library(ggplot2)
-print("ggplot installed!")
+print("ggplot loaded!")
 ```
 
 Plotting in `ggplot` follows a consistent template: you first supply the ggplot() function, in which you specify the dataset you will be using, as well as an aesthetic mapping using aes(). Then, you simply add layers onto the ggplot (using `+`). 
@@ -293,12 +298,14 @@ ggplot(iris,
                                # "darkolivegreen"))
 ```
 
-The same grouping can be done for scatterplots.
+The same grouping can be done for scatterplots - you can even change the shapes of groups (uncomment line 4).
 
 ``` {webr}
 #| autorun: false
 ggplot(iris, 
-       aes(x = Sepal.Width, y = Sepal.Length, color = Species)) + 
+       aes(x = Sepal.Width, 
+           y = Sepal.Length, 
+           color = Species)) + 
   geom_point() + 
   labs(title = "Sepal Lengths vs Sepal Widths", 
        x = "Sepal Width", 
@@ -318,5 +325,119 @@ ggplot(iris,
   labs(title = "Sepal Lengths vs Sepal Widths", 
        x = "Sepal Width", 
        y = "Sepal Length") +
+  # wrap by Species
   facet_wrap(~Species)
+```
+
+#### Other ways to customize your ggplot
+
+You can alter the "theme" of your ggplot by adding `theme_*()` as a layer. Try changing `theme_gray()` (the default) in line 7 to one of `theme_bw()`, `theme_dark()`, `theme_minimal()`, or `theme_classic()`. 
+
+Also try changing the value of the `shape` parameter in `geom_point()` in line 3. It can be any integer ranging from 0 to 25 (see shape options [here](http://www.sthda.com/sthda/RDoc/images/points-symbols.png)). 
+
+``` {webr}
+#| autorun: false
+ggplot(iris, aes(x = Sepal.Width, 
+                 y = Sepal.Length)) +
+  geom_point(shape=20) + 
+  labs(title = "Scatterplot of Sepal Length vs Width", 
+       x = "Sepal Width (cm)",
+       y = "Sepal Length (cm)") + 
+  theme_gray()
+```
+
+You can add labels to your plots using `geom_label()`.
+
+``` {webr}
+#| autorun: false
+ggplot(iris, aes(x = Sepal.Width, 
+                 y = Sepal.Length)) +
+  geom_point() + # adding a scatterplot layer
+  labs(title = "Scatterplot of Sepal Length vs Width", 
+       x = "Sepal Width (cm)",
+       y = "Sepal Length (cm)") + 
+  geom_label(label = "Look at this!", 
+             x = 4.0,
+             y = 6.5,
+             color = "black",
+             fill = "#69b3a2"
+  )
+```
+
+You can use point sizes in scatterplots to represent the magnitude of a variable. To do this, simply specify the `size` parameter in the aesthetic mapping.
+
+Notice how the below plot incorporates *four* variables!
+
+``` {webr}
+#| autorun: false
+ggplot(iris, aes(x = Sepal.Width, 
+                 y = Sepal.Length,
+                 size = Petal.Width,
+                 color = Species)) +
+  geom_point(alpha = 0.6) + 
+  labs(title = "Scatterplot of Sepal Length vs Width", 
+       x = "Sepal Width (cm)",
+       y = "Sepal Length (cm)") + 
+  theme_gray()
+```
+
+## Exercises
+
+These below exercises are based on the `penguins` dataset from the `palmerpenguins` package. Run the below to load in the dataset.
+
+``` {webr}
+#| autorun: false
+library(palmerpenguins)
+print("palmerpenguins loaded!")
+```
+
+Preview the dataset with `head()`:
+
+``` {webr}
+#| autorun: false
+head(penguins)
+```
+
+More details about the dataset: 
+
+``` {webr}
+#| autorun: false
+# `paste0` combines outputs
+print(paste0("Number of rows: ", nrow(penguins)))
+print(paste0("Number of columns: ", ncol(penguins)))
+# column names
+print(names(penguins))
+```
+
+**Exercise 1: Choose one numeric variable in the `penguins` dataset, and create a histogram. Don't worry about any R warnings for now!**
+
+*Double click on each blank and type your answer.*
+
+``` {webr}
+#| autorun: false
+#| exercise: ex_2
+ggplot(______, aes(______ = ______)) + 
+  ______() + 
+  labs(title = ______,
+       x = ______)
+```
+
+**Exercise 2: Choose 2 numeric variables in the `penguins` dataset, and create a scatterplot. Don't worry about any R warnings for now!**
+
+``` {webr}
+#| autorun: false
+#| exercise: ex_3
+ggplot(______, aes(______ = ______, 
+                     ______ = ______)) +
+  ______() + 
+  labs(title = ______, 
+       x = ______,
+       y = ______)
+```
+
+**Exercise 3: Copy and paste your code from exercise 2 in the code cell below. This time, color the data points by the `species` variable.**
+
+``` {webr}
+#| autorun: false
+
 ```
