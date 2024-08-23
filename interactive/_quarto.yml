@@ -1,6 +1,9 @@
 project:
-  title: "interactive"
+  type: "website"
   output-dir: /home/jasmine/MLDS/mlds_R/docs
+
+website: 
+  favicon: mlds_logo.png
 
 format:
   html:
