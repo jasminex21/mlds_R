@@ -33,7 +33,7 @@ var2
 
 ### Data Types
 
-* Character: Used for text data, enclosed within either single or double quotation marks, e.g. "Hello", "40 Acres"
+* Character: Used for text data, enclosed within either single or double quotation marks, e.g. "Hello", '40 Acres'
 
 * Numeric: integers and floats. e.g. `12`, `3.14`, `-7`.
 * Logical: Consists of boolean values `TRUE` and `FALSE`.
@@ -215,16 +215,17 @@ Plotting in `ggplot` follows a consistent template: you first supply the ggplot(
 Supported plots include histogams, boxplots, scatterplots, violin plots, density plots, and [tons more](https://ggplot2.tidyverse.org/reference/).
 
 ``` {r}
-ggplot(iris, aes(x = Sepal.Width)) + # specifying dataset and aesthetic mapping
-  geom_histogram(bins = 12) + # adding a histogram layer
+ggplot(iris) + # specifying dataset
+  geom_histogram(bins = 12,
+                 aes(x = Sepal.Width)) + # adding hist layer and specifying aesthetic mapping
   labs(title = "Histogram of Iris Sepal Widths", # adding a layer with title and axis labels
        x = "Sepal Width (cm)")
 ```
 
 ``` {r}
-ggplot(iris, aes(x = Sepal.Width, 
-                 y = Sepal.Length)) +
-  geom_point() + # adding a scatterplot layer
+ggplot(iris) +
+  geom_point(aes(x = Sepal.Width, 
+                 y = Sepal.Length)) + # adding a scatterplot layer
   labs(title = "Scatterplot of Sepal Length vs Width", 
        x = "Sepal Width (cm)",
        y = "Sepal Length (cm)")
@@ -237,9 +238,9 @@ Let's further customize our ggplots.
 We can group our histogram by species - the legend is automatically added! 
 
 ``` {r}
-ggplot(iris, 
-       aes(x = Sepal.Width, fill = Species)) + 
-  geom_histogram(bins = 12,
+ggplot(iris) + 
+  geom_histogram(aes(x = Sepal.Width, fill = Species), 
+                 bins = 12,
                  # alpha controls transparency
                  alpha = 0.8) + 
   labs(title = "Histogram of Sepal Widths", 
@@ -254,11 +255,10 @@ ggplot(iris,
 The same grouping can be done for scatterplots - you can even change the shapes of groups (uncomment line 4).
 
 ``` {r}
-ggplot(iris, 
-       aes(x = Sepal.Width, 
-           y = Sepal.Length, 
-           color = Species)) + 
-  geom_point() + 
+ggplot(iris) + 
+  geom_point(aes(x = Sepal.Width, 
+                 y = Sepal.Length, 
+                 color = Species)) + 
   labs(title = "Sepal Lengths vs Sepal Widths", 
        x = "Sepal Width", 
        y = "Sepal Length") +
@@ -270,9 +270,8 @@ ggplot(iris,
 Instead of overlaying groups on top of each other, we can also use **facet_wrapping**.
 
 ``` {r}
-ggplot(iris, 
-       aes(x = Sepal.Width, y = Sepal.Length, color = Species)) + 
-  geom_point() + 
+ggplot(iris) + 
+  geom_point(aes(x = Sepal.Width, y = Sepal.Length, color = Species)) + 
   labs(title = "Sepal Lengths vs Sepal Widths", 
        x = "Sepal Width", 
        y = "Sepal Length") +
@@ -287,9 +286,10 @@ You can alter the "theme" of your ggplot by adding `theme_*()` as a layer. Try c
 Also try changing the value of the `shape` parameter in `geom_point()` in line 3. It can be any integer ranging from 0 to 25 (see shape options [here](http://www.sthda.com/sthda/RDoc/images/points-symbols.png)). 
 
 ``` {r}
-ggplot(iris, aes(x = Sepal.Width, 
-                 y = Sepal.Length)) +
-  geom_point(shape=20) + 
+ggplot(iris) +
+  geom_point(aes(x = Sepal.Width, 
+                 y = Sepal.Length), 
+             shape=20) + 
   labs(title = "Scatterplot of Sepal Length vs Width", 
        x = "Sepal Width (cm)",
        y = "Sepal Length (cm)") + 
@@ -299,9 +299,9 @@ ggplot(iris, aes(x = Sepal.Width,
 You can add labels to your plots using `geom_label()`.
 
 ``` {r}
-ggplot(iris, aes(x = Sepal.Width, 
-                 y = Sepal.Length)) +
-  geom_point() + # adding a scatterplot layer
+ggplot(iris) +
+  geom_point(aes(x = Sepal.Width, 
+                 y = Sepal.Length)) + # adding a scatterplot layer
   labs(title = "Scatterplot of Sepal Length vs Width", 
        x = "Sepal Width (cm)",
        y = "Sepal Length (cm)") + 
@@ -318,11 +318,12 @@ You can use point sizes in scatterplots to represent the magnitude of a variable
 Notice how the below plot incorporates *four* variables!
 
 ``` {r}
-ggplot(iris, aes(x = Sepal.Width, 
+ggplot(iris) +
+  geom_point(aes(x = Sepal.Width, 
                  y = Sepal.Length,
                  size = Petal.Width,
-                 color = Species)) +
-  geom_point(alpha = 0.6) + 
+                 color = Species), 
+             alpha = 0.6) + 
   labs(title = "Scatterplot of Sepal Length vs Width", 
        x = "Sepal Width (cm)",
        y = "Sepal Length (cm)") + 

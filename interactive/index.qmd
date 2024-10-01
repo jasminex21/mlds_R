@@ -46,7 +46,7 @@ var2
 
 ### Data Types
 
-* Character: Used for text data, enclosed within either single or double quotation marks, e.g. "Hello", "40 Acres"
+* Character: Used for text data, enclosed within either single or double quotation marks, e.g. "Hello", '40 Acres'
 
 * Numeric: integers and floats. e.g. `12`, `3.14`, `-7`.
 * Logical: Consists of boolean values `TRUE` and `FALSE`.
@@ -240,17 +240,18 @@ Supported plots include histogams, boxplots, scatterplots, violin plots, density
 
 ``` {webr}
 #| autorun: false
-ggplot(iris, aes(x = Sepal.Width)) + # specifying dataset and aesthetic mapping
-  geom_histogram(bins = 12) + # adding a histogram layer
+ggplot(iris) + # specifying dataset and aesthetic mapping
+  geom_histogram(aes(x = Sepal.Width), 
+                 bins = 12) + # adding a histogram layer
   labs(title = "Histogram of Iris Sepal Widths", # adding a layer with title and axis labels
        x = "Sepal Width (cm)")
 ```
 
 ``` {webr}
 #| autorun: false
-ggplot(iris, aes(x = Sepal.Width, 
-                 y = Sepal.Length)) +
-  geom_point() + # adding a scatterplot layer
+ggplot(iris) +
+  geom_point(aes(x = Sepal.Width, 
+                 y = Sepal.Length)) + # adding a scatterplot layer
   labs(title = "Scatterplot of Sepal Length vs Width", 
        x = "Sepal Width (cm)",
        y = "Sepal Length (cm)")
@@ -260,8 +261,8 @@ Try it yourself - create a `ggplot` scatterplot with `Petal.Width` on the x axis
 
 ```{webr}
 #| exercise: ex_1
-ggplot(______, aes(x = ______, y = ______)) +
-  ______() + 
+ggplot(______) +
+  ______(aes(x = ______, y = ______)) + 
   labs(title = "Histogram of Petal Lengths vs Widths", 
        x = "Petal Width (cm)",
        y = "Petal Length (cm)")
@@ -275,8 +276,8 @@ ggplot(______, aes(x = ______, y = ______)) +
 ``` {webr}
 #| exercise: ex_1
 #| solution: true
-ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
-  geom_point() + 
+ggplot(iris) +
+  geom_point(aes(x = Petal.Width, y = Petal.Length)) + 
   labs(title = "Histogram of Petal Lengths vs Widths", 
        x = "Petal Width (cm)",
        y = "Petal Length (cm)")
@@ -298,9 +299,9 @@ We can group our histogram by species - the legend is automatically added!
 
 ``` {webr}
 #| autorun: false
-ggplot(iris, 
-       aes(x = Sepal.Width, fill = Species)) + 
-  geom_histogram(bins = 12,
+ggplot(iris) + 
+  geom_histogram(aes(x = Sepal.Width, fill = Species),
+                 bins = 12,
                  # alpha controls transparency
                  alpha = 0.8) + 
   labs(title = "Histogram of Sepal Widths", 
@@ -316,11 +317,10 @@ The same grouping can be done for scatterplots - you can even change the shapes 
 
 ``` {webr}
 #| autorun: false
-ggplot(iris, 
-       aes(x = Sepal.Width, 
-           y = Sepal.Length, 
-           color = Species)) + 
-  geom_point() + 
+ggplot(iris) + 
+  geom_point(aes(x = Sepal.Width, 
+                 y = Sepal.Length, 
+                 color = Species)) + 
   labs(title = "Sepal Lengths vs Sepal Widths", 
        x = "Sepal Width", 
        y = "Sepal Length") # +
@@ -333,9 +333,8 @@ Instead of overlaying groups on top of each other, we can also use **facet_wrapp
 
 ``` {webr}
 #| autorun: false
-ggplot(iris, 
-       aes(x = Sepal.Width, y = Sepal.Length, color = Species)) + 
-  geom_point() + 
+ggplot(iris) + 
+  geom_point(aes(x = Sepal.Width, y = Sepal.Length, color = Species)) + 
   labs(title = "Sepal Lengths vs Sepal Widths", 
        x = "Sepal Width", 
        y = "Sepal Length") +
@@ -351,9 +350,10 @@ Also try changing the value of the `shape` parameter in `geom_point()` in line 3
 
 ``` {webr}
 #| autorun: false
-ggplot(iris, aes(x = Sepal.Width, 
-                 y = Sepal.Length)) +
-  geom_point(shape=20) + 
+ggplot(iris) +
+  geom_point(aes(x = Sepal.Width, 
+                 y = Sepal.Length), 
+             shape=20) + 
   labs(title = "Scatterplot of Sepal Length vs Width", 
        x = "Sepal Width (cm)",
        y = "Sepal Length (cm)") + 
@@ -364,9 +364,9 @@ You can add labels to your plots using `geom_label()`.
 
 ``` {webr}
 #| autorun: false
-ggplot(iris, aes(x = Sepal.Width, 
-                 y = Sepal.Length)) +
-  geom_point() + # adding a scatterplot layer
+ggplot(iris) +
+  geom_point(aes(x = Sepal.Width, 
+                 y = Sepal.Length)) + # adding a scatterplot layer
   labs(title = "Scatterplot of Sepal Length vs Width", 
        x = "Sepal Width (cm)",
        y = "Sepal Length (cm)") + 
@@ -384,11 +384,12 @@ Notice how the below plot incorporates *four* variables!
 
 ``` {webr}
 #| autorun: false
-ggplot(iris, aes(x = Sepal.Width, 
+ggplot(iris) +
+  geom_point(aes(x = Sepal.Width, 
                  y = Sepal.Length,
                  size = Petal.Width,
-                 color = Species)) +
-  geom_point(alpha = 0.6) + 
+                 color = Species),
+             alpha = 0.6) + 
   labs(title = "Scatterplot of Sepal Length vs Width", 
        x = "Sepal Width (cm)",
        y = "Sepal Length (cm)") + 
@@ -430,8 +431,8 @@ print(names(penguins))
 ``` {webr}
 #| autorun: false
 #| exercise: ex_2
-ggplot(______, aes(______ = ______)) + 
-  ______() + 
+ggplot(______) + 
+  ______(aes(______ = ______)) + 
   labs(title = ______,
        x = ______)
 ```
@@ -441,9 +442,9 @@ ggplot(______, aes(______ = ______)) +
 ``` {webr}
 #| autorun: false
 #| exercise: ex_3
-ggplot(______, aes(______ = ______, 
-                     ______ = ______)) +
-  ______() + 
+ggplot(______) +
+  ______(aes(______ = ______, 
+             ______ = ______)) + 
   labs(title = ______, 
        x = ______,
        y = ______)
