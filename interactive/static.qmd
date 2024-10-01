@@ -33,7 +33,7 @@ var2
 
 ### Data Types
 
-* Character: Used for text data, enclosed within either single or double quotation marks, e.g. "Hello", "40 Acres'
+* Character: Used for text data, enclosed within either single or double quotation marks, e.g. "Hello", "40 Acres"
 
 * Numeric: integers and floats. e.g. `12`, `3.14`, `-7`.
 * Logical: Consists of boolean values `TRUE` and `FALSE`.
