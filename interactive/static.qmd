@@ -59,6 +59,20 @@ print(vec2)
 print(vec1[3])
 ```
 
+Try to name your variables appropriately! Ensure that your variable names: 
+
+1. follow R rules - variable names must be a combination of letters, digits, underscores, or periods, and *CANNOT*:
+     * be a reserved word, e.g. `TRUE` or `for`
+     * start with an underscore
+     * start with a number
+     * contain dashes (-) or spaces
+     * contain special characters such as `"@"`
+2. are descriptive - e.g. if you are computing the average of a vector of numbers, `average` is a better variable name that `number`
+3. follow either snake_case or camelCase conventions
+4. are an appropriate length - e.g. `the_average_of_this_vector_of_numbers` is probably not necessary; just `average` suffices
+
+Also remember that variable names are case-sensitive! This means that `variable` and `Variable` are *not* the same, and neither are `vaRIAbLe` and `vaRiablE`. 
+
 ### Math
 
 | Operator      | Name           | Example  |

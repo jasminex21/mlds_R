@@ -266,6 +266,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 5</code></pre>
 </div>
 </div>
+<p>Try to name your variables appropriately! Ensure that your variable names:</p>
+<ol type="1">
+<li>follow R rules - variable names must be a combination of letters, digits, underscores, or periods, and <em>CANNOT</em>:
+<ul>
+<li>be a reserved word, e.g.&nbsp;<code>TRUE</code> or <code>for</code></li>
+<li>start with an underscore</li>
+<li>start with a number</li>
+<li>contain dashes (-) or spaces</li>
+<li>contain special characters such as <code>"@"</code></li>
+</ul></li>
+<li>are descriptive - e.g.&nbsp;if you are computing the average of a vector of numbers, <code>average</code> is a better variable name that <code>number</code></li>
+<li>follow either snake_case or camelCase conventions</li>
+<li>are an appropriate length - e.g.&nbsp;<code>the_average_of_this_vector_of_numbers</code> is probably not necessary; just <code>average</code> suffices</li>
+</ol>
+<p>Also remember that variable names are case-sensitive! This means that <code>variable</code> and <code>Variable</code> are <em>not</em> the same, and neither are <code>vaRIAbLe</code> and <code>vaRiablE</code>.</p>
 </section>
 <section id="math" class="level3">
 <h3 class="anchored" data-anchor-id="math">Math</h3>
